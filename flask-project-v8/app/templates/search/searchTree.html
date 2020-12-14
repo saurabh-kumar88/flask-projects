@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<br><br>
+  <!----Search a Tree---->
+  <div class="col-s-12" id="SearchTree">
+
+        <div class="row-img">
+          <div class="col-img">
+              <img class="w3-image w3-round-large" src="/static/images/home/searchicon.png" style="width:100%;">
+            </div>
+            <div class="col-img">
+                <h3>To Know About Your Tree</h3>
+                <hr>
+                <p>Enter 7 digit Tree code here</p>
+                <form action="{{url_for('street.search_tree_by_code')}}" method="POST">
+               <div class="col-s-12">
+                  <input type="text" id="tree_code" name="tree_code" placeholder="Tree Code">
+                </div>
+  
+            <div class="row">
+              <button class="w3-button w3-green" type="submit">
+                <i class="fa fa-search"></i> Search</button>
+          </div>
+            </form>
+              </div>
+                </div>
+                  </div>
+{% endblock %}

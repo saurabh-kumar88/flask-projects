@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+<br><br>
+<html>
+  <head>
+    Posts
+  </head>
+  <body>
+
+<div style="overflow-x:auto;">  
+  <table>
+      <tr>
+      <th>ID</th>
+      <th>Measurment Date</th>
+      <th width="10%">Updated </th>     
+      <th>Common Name</th>
+      <th>Scientific Name</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Trunk diameter</th>
+      <th>Closest Address</th>
+      <th>Condition</th>
+      </tr>
+    {% for row in posts.items %}
+        {% if row.condition == "Bad/Damaged/Sick" or row.condition == "Bad/Bark-damaged"%}
+      
+        <tr style="background-color: yellow">
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td >{{row.closest_address}}</td>
+        <td>{{row.condition}}</td>  
+        </tr>
+      {% elif row.condition == "Dead/Gone" %}
+       <tr style="background-color:tomato">
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td>{{row.closest_address}}</td>
+        <td>{{row.condition}}</td>   
+        </tr>
+   
+        {% else %}
+        <tr>
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td>{{row.closest_address}}</td>
+        <td>{{row.condition}}</td> 
+        </tr>
+      {% endif %}
+
+      {% endfor %}
+    </table>
+    </div>
+
+
+
+{% if posts.has_prev %}<a href="{{ url_for('street.view', page=posts.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} | 
+{% if posts.has_next %}<a href="{{ url_for('street.view', page=posts.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
+
+  </body>
+</html>
+
+
+<style>
+        table{                      
+                border: 0.25px solid white;
+                width: 100%;
+                padding: 1%;
+             }
+        
+        th, td {
+                text-align: left;
+                padding: 8px;
+               }
+                                
+        tr:nth-child(even){background-color: #f2f2f2}
+        
+        th {
+            background-color: #4CAF50;
+            color: rgb(255, 255, 255);
+            }
+</style>
+
+
+{% endblock %}

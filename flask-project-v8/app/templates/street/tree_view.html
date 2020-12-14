@@ -1,0 +1,1247 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!-------------------STARTS-------------------->
+
+<!-- Render single tree data here -->
+
+<br><br>
+
+
+<div class="row-img">
+
+    <div class="col-img">
+
+        <img src="\static\images\leafs\{{leaf_image}}" style="width:100%;">
+
+        </div>
+        <div class="col-img" style="text-align: left;">
+        <h2 class="species-name">{{specie}}<span class="species-color"></span></h2>
+        <p class="scientific-species-name">{{botanicalName}}</p>
+        <p class="tree-details"><strong>ID Number: </strong> {{treeCode}}</p>
+        <p class="tree-details"><strong>Estimated Age: </strong> {{age}} Yrs.</p>
+        <p class="tree-details"><strong>Height: </strong> {{height}} feet.</p>
+        <p class="tree-details"><strong>Trunk Diameter: </strong> {{diameter}} inches</p>
+        <p class="tree-details"><strong>Measurment Date: </strong> {{created}}</p>
+        <p class="tree-details"><strong>Updated: </strong> {{updated}}</p>
+        <p class="tree-details"><strong>Closest Address: </strong> {{address}}</p>
+        <p class="tree-details"><strong>Recent tree care log : </strong></p>
+        <p><a href="#" id="#"  >Species Map and Details</a></p>
+
+        <p class="tree-details"><a href="#" class="report-problem-btn">Suggest an Edit</a></p>
+      </div>
+  </div>
+</div>
+<div class="row-img">
+    <div class="col-img" style="text-align: center;">
+            <!------<img src ="/static/images/trees/{{image_1}}" class="tree_image">----->
+            <img src="static/images/tree-images/{{specie}}.jpg">
+        </div>
+        <div class="col-img" style="text-align: center;">
+                <!---<img src ="/static/images/trees/{{image_2}}" class="tree_image">----->
+                <img src="static/images/tree-images/{{specie}}2.jpg">
+            </div>
+    </div>
+
+
+<!--____________________________Sliding Effect_____________________________________________________--->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#flip").click(function(){
+    $("#panel").slideToggle("slow");
+  });
+});
+</script>
+<style>
+#panel, #flip {
+  padding: 5px;
+  text-align: left;
+  background-color: whitesmoke;
+
+}
+
+#panel {
+  padding: 50px;
+  display: none;
+}
+/*_______________________________ENDS HERE_______________________________*/
+</style>
+
+
+<!------------ Benefits STARTS------------->
+
+<div class="w3-container w3-light-grey w3-padding-64" id="specie_benefits">
+    <div class="exclanation_icon">
+        <img src="/static/images/tree-view/mark-important.png">
+        </div>
+<div class="col-12 col-s-12" style="padding:128px 16px" id="CityWide_Data">
+        <h1 style="text-align: center; font-weight:bold;color: #88c659;">Ecological Benefits Offered By This Tree</h1>
+        <hr>
+        <div class="row-img">
+            <div class="col-img">
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-sun-o"></i></span> Carbodioxide Reduced Each Year</h3>
+                <h3 style="color:#88c659;" >{{co2_absorbed_yr}} Kg </h3>
+
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-inr"></i></span> Social cost of carbon saved Each Year</h3>
+                <h3 style="color:#88c659;">{{social_cost_of_carbon_yr}} Rs </h3>
+            </div>
+
+            <div class="col-img">
+                    <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-bolt"></i></span> Energy Conserved Each Year</h3>
+                    <h3 style="color:#88c659;">Will be implemented soon</h3>
+
+                    <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tint"></i></span> Storm Water Intercepted Each Year</h3>
+                    <h3 style="color:#88c659;">Will be implemented soon</h3>
+                </div>
+            </div>
+
+       <p style="font-size:20px;">India's current rate for Social cost of carbon is $86 USD per ton emission of Carbon dioxide in atmospeher
+       Learn more about Social cost of carbon(SCC) <a class="SCC_link"  href="https://www.downtoearth.org.in/dte-infographics/social_cost_corbon/index.html" target="_blank">
+       here</a> </p>
+
+<div class="row-img" >
+    <img src="/static/images/tree-view/maintenance.png" class="important_facts_icon">
+        <h2 style="color:#88c659; text-align: center"> Maintenance logs</h2>
+        <hr>
+
+    <div class="col-img">
+
+    {%- if maintenance %}
+    <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-pencil"></i></span> Service logs</h3>
+    {% for x in logs %}
+
+    <p style="color:#58595b;">{{x.datetime.strftime("%d-%m-%Y ")}} - {{x.maintenanceType}} </p>
+        {% endfor %}
+    {% else %}
+    <h3>No logs available</h3>
+    {% endif -%}
+
+    </div>
+
+
+    <div class="col-img">
+
+        <!-------<form action="{{url_for('street.Complains', may_var='{{treeCode}}')}}" methods="POST">send may_var
+                <button class="button button2" type="submit">
+                        Maintenance need or complains</button>
+            </form>--------->
+
+
+    <div class="About_tree" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Register Complains or Maintenance required by this tree <a href="{{ url_for('street.Complains', my_var= treeCode ) }}">here</a></a>
+        </div>
+
+    <div style="font-size: 150%">
+
+        </div>
+
+
+    </div>
+
+
+
+    </div>
+     <hr>
+
+      <img src="/static/images/tree-view/Did_you_know.png" class="important_facts_icon">
+      <br>
+
+      <div class="foundation_date" style="font-size:20px;">
+        <span style="color:green;"><i class="fa fa-calendar fa-1x" aria-hidden="true"></i></span>
+        This {{specie}} tree was planted here back in {{est_plantation_date}}</div>
+
+        <div style="align-content: left" id="flip" >
+                <button class="button button2" >
+                Some Intresting fatcs</button>
+              </div>
+
+<style>
+    .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+    </style>
+
+
+<!-------------------Tree specie specific use case------------------------------------------->
+    <div class="col-12 col-s-12" style="padding:128px 16px" id="panel">
+            {% if botanicalName == "Azadirachta_indica" %}
+            <div class="Intresting_facts" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i></h3>
+            <p>
+            Neem is the native tree of India, Pakistan and Bangladesh.
+            Its has relatively high efficiency of CO2 fixation, it provides a good option for maximum CO2
+            fixation and providing a shield against other pollution components particularly SO2
+                </p>
+            </div>
+
+
+            <div class="Ayurveda" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Ayurvedic remedeis of {{specie}} tree</div></h3>
+            <div class="row">
+            <img src="/static/images/intresting-facts/Neem ayurveda.png" style="width:100%;">
+            </div>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Neem Have Superb Antibacterial Properties
+            </h3>
+            <p class="text"> Neem leaf, bark and stem concentrates have high microbial
+            controlling properties. Neem concentrates control types of parasites,
+            microbes and infections. The antibacterial properties of Neem are likewise
+            great in controlling oral microbes which are answerable for engendering gum
+            maladies. Customarily, Neem twigs were utilized as toothbrushes for
+            several years in India</p>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Natural Pest Control</h3>
+
+            <p class="text">The Neem oil spray comes from the oil extracted by “pressing”
+            the seed of the Neem tree – Azadirachta indica. Neem oil is utilized
+            as a natural pesticide to shower plants and keep them away from insects</p>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Can Help control Diabetes</h3>
+
+            <p class="text">Diabetes could be controlled fundamentally by overseeing
+            the leaf concentrates of Neem. Tests have demonstrated that the leaf
+            concentrates diminished blood glucose levels in diabetes instigated
+            rats as well as among non-diabetic rats.</p>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Can Treat Acne</h3>
+
+            <p class="text">In terms of treating acne, which is one of the most
+            widespread and challenging skin conditions to treat,
+            neem paste is observed to eliminate much of grease and bacteria that
+            can exacerbate the condition. The antibacterial nature of neem also helps...</p>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Boosts Immune System</h3>
+
+            <p class="text">Neem is thought to not only kill off harmful infective organisms,
+            but also to boost the body’s immune response on several levels helping increase
+            the body’s ability to fight all kinds of infections.
+            By boosting the body’s first line of defense...</p>
+
+            <h3 class="text-heading">
+            <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Improves Oral Health</h3>
+
+            <p class="text">Apart from its bitter taste , Neem will help improve your gum health, your teeth health,
+            and your oral care in general.</p>
+
+            <div class="About_tree" style="font-size:20px;">
+                <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+                Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Azadirachta_indica" target="_blank">
+                    here</a>
+            </div>
+
+        {% elif botanicalName == "Alstonia_scholaris" %}
+
+            <div class="Intresting_facts" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i></h3>
+            <p>
+                Alstonia is evergreen  fast-growing  tree, that grows up to 40 m tall.
+                Also known as Saptaparni(because it always have group of 7 leafe's),
+                Devil's Tree, Scholar tree. Its flowers are greenish white and blooms in early winter (mid of september to october)
+                which have superb mesmerizing fregrance. It is Most abundant and common street tree of delhi
+            </p>
+
+        </div>
+
+
+            <div class="Ayurveda" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Ayurvedic remedeis of {{specie}} tree</h3>
+            <br>
+            <div class="row">
+            <img src="/static/images/intresting-facts/alstonia-scholaris.jpg" style="width:50%;">
+                </div>
+            <p class="text">In Ayurveda it is used as a bitter and as an astringent herb for
+            treating skin disorders, malarial fever, urticaria,
+            chronic dysentery, diarrhea, in snake bite and for upper
+            purification process of Panchakarma .
+            The Milky juice of the tree is applied to ulcers
+            The bark of Alstonia scholaris is used solely for medicinal purposes,
+            ranging from Malaria and epilepsy to skin conditions and asthma.</p>
+
+
+
+
+            <div class="About_tree" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} tree<a class="SCC_link"  href="https://en.wikipedia.org/wiki/Alstonia_scholaris" target="_blank">
+            here</a></p></div>
+
+
+        {% elif botanicalName == "Ficus_religiosa" %}
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Have Longest life span</h3>
+            </div>
+            <p>Avrage life span of peepal tree is 900 to 1500 years. <span style="color:green;"></span><a class="SCC_link"  href="https://en.wikipedia.org/wiki/Jaya_Sri_Maha_Bodhi" target="_blank">
+            Jaya Sri Maha Bodhi</a>, a peepal tree in the ancient city of Anuradhapura in
+            Sri Lanka which is estimated to be more than 2,250 years old and is regarded
+            as the Oldest historical tree in the world with religious importance
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Largest oxygen provider</h3></div>
+            <p class="text">Peepal is considered to be the largest oxygen provider, along with Neem and Tulsi.
+            It is widely known at several places that these trees release oxygen even at night.
+            They can uptake carbon dio-oxide during the night as well.</p>
+
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Pollution Control</h3></div>
+            <p class="text">Peepal tree can captures 2252 kg CO2 /ha/year and produce 1712 kg O2/ha/year.
+            The CO2 capturing capacity of peepal could be fruitful on climate change management,
+            A band of 500m of peepal around factories areas reduces SO2 concentration by 70% and N2O concentration by 67%</p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                The Tree of Life</h3></div>
+            <p class="text">The peepal or Bodhi tree is considered sacred by the followers of Hinduism, Jainism and Buddhism.</p>
+            <div class="row">
+            <img src="/static/images/intresting-facts/peepal-sunshine.png" style="width:50%;">
+            </div>
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i></span>
+                Ayurvedic remedeis of {{specie}} tree</h3>
+            <p class="text">Ficus religiosa is used in traditional medicine for about 50 types of disorders including asthma,
+            diabetes, diarrhea, epilepsy, gastric problems, inflammatory disorders,
+            infectious and sexual disorders. Learn more about ayurvedic uses of peepal tree
+            <a class="SCC_link"  href="https://www.lybrate.com/topic/peepal-tree-health-benefits" target="_blank">
+            here</a></p>
+
+
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Ficus_religiosa" target="_blank">
+            here</a></p></div>
+
+
+        {% elif botanicalName == "Cassia_fistula" %}
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Intresting facts</h3></div>
+            <p>Cassia fistula, also known as golden rain tree, India laburnum and amaltas(Hindi).
+            It is the state flower of Kerala, national tree of Thailand,
+            and its flower is Thailand's national flower.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Amaltas and the Malayali New Year</h3></div>
+            <p>Amaltas - or Kanikkonna as it is known in Malayalam - is the state flower of
+            Kerala. Flowers of amaltas plays very important
+            role in celebrating Malayalis festival Vishu, their new year, in April on the same day when
+            Punjabis observe Baisakhi, Tamilians their Putthāndu, Assamese their Rongali
+            Bihu, and Bengalis their Naba Barsha.
+            </p>
+            <div class="row">
+            <img src="/static/images/intresting-facts/Vishu.png" style="width:50%;">
+            </div>
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-inr fa-1x" aria-hidden="true"></i>
+                Economic Importance</h3></div>
+            <p>Besides being an ornamental, Amaltas is economically useful in several ways.
+            The wood is useful as fuel and for making agricultural implements.
+            The bark yields an orange dye. Its Sanskrit name Aragwadha translates to ‘disease destroyer’.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                In Ayurveda</h3></div>
+            <p> the fruit pulp has been employed as a
+            gentle laxative and has also been considered
+            efficacious in treating skin diseases such as scabies,
+            boils and glandular swellings. The fruit pulp is found
+            to be a source of micronutrients (K, Ca, Fe, Mn),
+            amino acids (aspartic acid, glutamic acid and lysine,
+            and energy (18kJ/g) according to one study.
+            Antioxidant properties have also been reported in the stem bark,
+            leaves, flowers and fruit pulp
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
+                Post stamp</h3></div>
+
+            <p>The Department of Posts, Government of India
+            released a Rs 20 postage stamp of Amaltas on
+            20 November 2000.
+            </p>
+            <div class="row">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/post-stamp.png" style="width:50%;">
+                    </div>
+
+            </div>
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} <a class="SCC_link"  href="http://www1.nii.res.in/pdf/amaltas.pdf" target="_blank">
+            here</a></p></div>
+
+
+
+
+        {% elif botanicalName == "Ficus_benghalensis" %}
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Intresting facts</h3></div>
+            <p>The 'Banyan' vat-vriksha ( In sanskrit ), or bargad (In hindi) is the National Tree of India, it was adopted as national tree in 1950.
+            The largest Banyan <a class="SCC_link" href="https://en.wikipedia.org/wiki/The_Great_Banyan" target="_blank">(The Great Banyan )</a> tree in India resides at the Indian Botanical Garden in Shibpur, Howrah in West Bengal.
+            It is around 25 m tall and the canopy cover is around 420 m with over 2000 aerial roots
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Ecological linchpins</h3></div>
+            <p>Banyans are ecological linchpins. They produce vast crops of figs that
+            sustain many species of birds, fruit bats, primates and other creatures,
+            which in turn disperse the seeds of hundreds of other plant species.
+            </p>
+
+            <div class="row">
+            <img src="/static/images/intresting-facts/banyan-tree-fruits.jpg" style="width:50%;">
+            </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Treats diarrhoea</h3></div>
+            <p>Taking the small budding leaves and soaking them in water creates
+            a powerful astringent agent that is very good for healing diarhoea,
+            gas, dysentery and irritation of the GI tract.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Prevents tooth decay and gum disease</h3></div>
+            <p>Taking the aerial roots and chewing on them prevents gum disease,
+            tooth decay and bleeding gums. The aerial roots acts as a natural
+            toothpaste and also helps with bad breath. It also makes the teeth strong.
+            The aerial roots have anti-bacterial and astringent properties
+            which is effective against most oral health problems.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Prevents inflammation</h3></div>
+            <p>Arthritis and joint pain is associated with inflammation of the joints.
+            This is not only painful but also restrict daily movement.
+            The sap of the banyan leaves have anti-inflammatory
+            properties so it can be helpful against conditions like arthritis.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Anti-bacterial and anti-fungal</h3></div>
+            <p>The bark of a banyan tree contains both anti-bacterial and anti-fungal properties.
+            It controls bacterial and fungal infections.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Lowers cholesterol</h3></div>
+            <p>There are two types of cholesterol in our body- 'good' and 'bad'.
+            The bark of the banyan tree works great in lowering the bad
+            cholesterol while keeping the good cholesterol level high.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Treats vomiting</h3></div>
+            <p>Consuming an infusion of the aerial
+            roots of the tree calms the GI tract. This prevents vomiting.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Boosts immunity</h3></div>
+            <p>A strong immunity is quintessential to having a healthy life.
+            Immunity helps you fight against diseases and protect you
+            from them. The bark of the banyan tree is a good immune boosting agent.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Religious and Spritual importance</h3></div>
+            <p>
+            Banyan tree has important religious values in Hiduism & buddhism.
+            Some ancient hindu text says a banyan tree at Jyotisar is the one Krishna stood beneath
+            when he delivered the sermon of the Bhagavad Gita.
+            In hiduism it has been mentioned in many scriptures & in vedas.
+
+            Also it is believed that Lord Buddha is believed to have sat under a
+            Banyan tree for seven days after attaining enlightenment
+
+            Hindu texts written more than 2500 years ago describe it as a cosmic ‘world tree’,
+            a banyan growing upside-down with its roots in the heavens.
+            Its trunk and branches extend to Earth to bring blessings to humanity.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Banyan" target="_blank">
+            here</a></p></div>
+
+        {% elif botanicalName == "Polyalthia_longifolia" %}
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-ban fa-1x" aria-hidden="true"></i>
+            This Is Not Ashoka Tree</h3></div>
+            <p>Manytimes, Polyalthia longifolia or False Ashoka, is incorrectly identified as <a class="SCC_link" href="https://en.wikipedia.org/wiki/Saraca_asoca">Ashoka tree (Saraca asoca)</a>
+            because of closely resembling leaves of both species. Other names of this tree are Asupala or the Buddha tree.
+            </p>
+            <div class="row" style="text-align: center;">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/false-ashoka.png" style="width:100%;">
+                    False Ashoka</div>
+                    <div class="col" style="text-align: center;">
+                            <img src="/static/images/intresting-facts/Ashoka-leaf.png" style="width:88%;">
+                        Ashoka</div>
+
+            </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Use</h3></div>
+            <p>The trunk of Polyalthia longifolia has grey bark.
+            Both the trunk and the bark are used in manufacturing of fiber.
+            Timber is used for making boxes, pencils and long
+            masts – that is why it is also known as the mast tree. In India and Sri Lanka,
+            where the mast tree is held in high esteem, its leaves are
+            used in religious ceremonies and for decorating arches and doorways.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-cutlery fa-1x" aria-hidden="true"></i>
+                Fruits and Flowers</h3></div>
+            <p>Polyalthia longifolia flowers during spring for a brief period
+            (approximately two to three weeks). During this period,
+            the entire tree is covered with small star-shaped flowers of pale green color.
+            The flowers grow in clusters and attract birds and butterflies.
+            Flowering is followed by egg-shaped fruits that are visited by bats and flying foxes.
+            </p>
+
+            <div class="row" style="text-align: center;">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/polyalthia-longifolia-flowers.jpg" style="width:100%;">
+                    </div>
+                    <div class="col" style="text-align: center;">
+                            <img src="/static/images/intresting-facts/false-ashoka-fruits.png" style="width:80%;">
+                        </div>
+
+                    </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-road fa-1x" aria-hidden="true"></i>
+            Road Divider and landscapes</h3></div>
+            <p>This evergreen, tall and slender tree grows symmetrically and produces fresh and
+            shining green foliage. This tree grows as tall as 12 meter and
+            the entire length of the plant is covered by long and wavy leaves.
+            It can be easily trimmed in to a straight columnar
+            growth covered with a lot of leaves. For this reason, it is suitable for
+            landscapes, as a hedge tree, and as visual dividers or
+            wind blockers in open spaces.</p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Polyalthia_longifolia" target="_blank">
+            here</a></p></div>
+
+        {% elif botanicalName == "Eucalyptus" %}
+        <div class="text-heading" style="font-size:20px;">
+        <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+            Intresting Facts</h3></div>
+        <p>Eucalyptus , Safed(In Hindi) or Gum tree is known as one of the tallest tree's on the planet.
+        There are over 700 species of eucalyptus that belong to the family Myrtaceae and most of them are
+        are native to Austrailia. Depending on the specie Eucalyptus tree can reach 33 to 200 feet in height.
+        Most eucalyptus trees can survive more than 250 years in the wild.
+        </p>
+
+        <div class="text-heading" style="font-size:20px;">
+        <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+            Ayurveda</h3></div>
+        <p>Leaves of eucalyptus are rich in oil that is used to alleviate symptoms of bronchitis, sore throat, nasal congestion…
+        Its oil is also used as insecticide. Koala's diet is completely based on the
+        leaves of eucalyptus. Despite wide variety of available species of eucalyptus,
+        only few of them are on the koala's menu.
+        Eucalyptus oil finds many uses like in fuels, fragrances, insect repellance and antimicrobial activity.
+        </p>
+        <div class="row">
+            <img src="/static/images/intresting-facts/Safeda-leaf.png" style="width:50%">
+            </div>
+
+        <div class="text-heading" style="font-size:20px;">
+        <h3><i class="fa fa-inr fa-1x" aria-hidden="true"></i>
+            Honey</h3></div>
+        <p>The <a class="SCC_link" href="https://en.wikipedia.org/wiki/Nectar">nectar</a> of some eucalypts produces high-quality monofloral honey.</p>
+
+
+        <div class="text-heading" style="font-size:20px;">
+        <h3><i class="fa fa-tint fa-1x" aria-hidden="true"></i>
+            Swamp Control</h3></div>
+        <p>Eucalypts draw a tremendous amount of water from the soil through the process of
+        transpiration. They have been planted (or re-planted) in some places to lower the
+        water table and reduce soil salination. Eucalypts have also been used as a way of
+        reducing malaria by draining the soil in Algeria, Lebanon, Sicily, Caucasus (Western Georgia), and California.
+        Drainage removes swamps which provide a habitat for mosquito larvae,
+        but can also destroy ecologically productive areas.
+        </p>
+
+        <div class="text-heading" style="font-size:20px;">
+        <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+        Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Eucalyptus" target="_blank">
+        here</a></p></div>
+
+
+        {% elif botanicalName == "Bombax_ceiba" %}
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Intrsting facst</h3></div>
+            <p>Silk Cotton Tree also know as , Kapok Tree • Hindi: शाल्मली Shalmali, सेमल Semal is one of the
+                native specie of tree and most commonly found in new delhi.
+                This tree are among the largest trees in their regions,
+                reaching 30 to 40 metres in height and up to 3 metres in trunk diameter.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Fruit and Flower</h3></div>
+            <p>
+            It is widely planted in parks and on roadsides because of its beautiful red (or orange)
+            flowers which bloom in March/April. This tree is quite common in New Delhi although
+            it doesn't reach its full size of 60m there because of the semi arid climate.
+            The cotton fibers of this tree can be seen floating in the wind around the time of
+            early May. This tree shows two marked growth sprints in India: in spring and during
+            the monsoon months. Perhaps due to subtropical climate and heavy rainfalls,
+            it's found in dense population throughout the Northeast India.
+            </p>
+            <div class="row">
+                    <div class="col" style="text-align: center;">
+                        Flower Bud
+                            <img src="/static/images/intresting-facts/bombax-ceiba-flower-bud.png" style="width:100%;">
+
+                        </div>
+                        <div class="col" style="text-align: center;">
+                            Flower
+                                <img src="/static/images/intresting-facts/bombax-ceiba-flower.png" style="width:100%;">
+                            </div>
+                            <div class="col" style="text-align:center;">Cotton seed pod
+                                <img src="/static/images/intresting-facts/bombax-ceiba-seedpod.png" style="width:100%;">
+                                    </div>
+                            </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-cutlery fa-1x" aria-hidden="true"></i>
+                Attractive to Birds</h3></div>
+            <p>The flowers are very attractive to local wildlife,
+            with many birds like the Japanese white-eye, a type of fruit eating bird,
+            which often draws a hole in an unopened Bombax ceiba flower bud. Honey bees,
+            and bumble bees also attracted to the flowers to collect pollen and nectar.
+            Because the flowers attract many insects, crab spiders can be occasionally
+            found on a fully opened flower, hunting bees.
+            </p>
+            <div class="row">
+            <img src="/static/images/intresting-facts/bombex-flower.png" style="width:60%;">
+                </div>
+                <br>
+
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Uses</h3></div>
+            <p>The tree is not merely beautiful, every part of this tree is useful.
+            Bark of Semal tree is a soft wood, used in the match sticks.
+            Since the bark lasts long even when submerged in water,
+            fishermen use it as a float. Its seed produces an edible oil,
+            used in making soaps. Also in some parts of rural India its Flower bud is used as
+            eadable vegitable and Flowers are used for making pickels.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Medical Importance</h3></div>
+            <p>It has a medicinal use, too.  Ayurvedic medicines are prepared from
+            the gum produced by this tree. Almost every part of the tree has a
+            medicinal use in Ayurveda.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Enviromental Importance</h3></div>
+            <p>It’s imperative that we conserve this tree species to ensure the balance
+            in ecology as many birds and bees depend on this tree.
+            Cutting any link in the food chain has a disastrous effect.
+            Reduction in bee population in some places is already a concern.
+            It’s being said that if the bees vanish from this planet,
+            extinction of human population is guaranteed!
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} <a class="SCC_link"  href="https://en.wikipedia.org/wiki/Bombax_ceiba" target="_blank">
+            here</a></p></div>
+
+
+        {% elif botanicalName == "Terminalia_arjuna" %}
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                About Arjun tree</h3></div>
+            <p>The arjuna is about 20–25 metres tall; usually has a buttressed trunk,
+            and forms a wide canopy at the crown, from which branches drop downwards.
+            It has smooth, grey bark; it has pale yellow flowers which appear between
+            March and June; its glabrous, 2.5 to 5 cm fibrous woody fruit,
+            divided into five wings, appears between September and November.
+            </p>
+            <div class="row">
+            <div class="col">
+            <img src="/static/images/intresting-facts/arjun-fruits2.png" style="width:100%;">
+                </div>
+                </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-inr fa-1x" aria-hidden="true"></i>
+                Economic Importance</h3></div>
+            <p>It is commonly known as arjuna or arjun tree. The arjuna is one of the
+            species whose leaves are fed on by the Antheraea paphia moth which
+            produces the tassar silk, a wild silk of commercial importance.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>Guardian of the heart</h3>
+
+            </div>
+            <p>The arjuna was introduced into Ayurveda as a treatment for heart disease by
+            <a class="SCC_link" href="https://en.wikipedia.org/wiki/Vagbhata" target="_blank">Vagbhata (c. 7th century CE)</a> It is traditionally prepared as a milk decoction.
+            In the Ashtānga Hridayam, but was also mentioned in many ancient Indian vedas,
+            and was a known practice for thousands of years, passed down by tradition,
+            before vagbhata mentioned it in his writings. Vagbhata mentions arjuna in the
+            treatment of wounds, hemorrhages and ulcers, applied topically as a powder.
+            </p>
+            <p>The Arjuna plant has traditionally been used to treat heart disease for centuries,
+            which is why it got the nickname “Guardian of the heart.
+            ”The hero of the famous epic “Mahabharata”, was named after this tree because of
+            its protective effects.
+            </p>
+            <div class="row">
+                    <div class="col">
+                    <img src="/static/images/intresting-facts/arjun-fruits.png" style="width:100%;">
+                        </div>
+                        </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            To know more awsome health benefits of {{specie}} tree <a class="SCC_link"  href="https://m.dailyhunt.in/news/india/english/curejoy-epaper-curejoy/11+health+benefits+of+terminalia+arjuna+a+herb+at+the+heart+of+your+health-newsid-93583078" target="_blank">
+            click here</a></p></div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} tree<a class="SCC_link"  href="https://en.wikipedia.org/wiki/Terminalia_arjuna" target="_blank">
+            here</a></p></div>
+
+        {% elif botanicalName == "Moringa_oleifera" %}
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Intresting Facts</h3></div>
+            <p>Moringa oleifera commonly known as Drum stick tree or Sahjan(In Hindi) is a fast-growing,
+            drought-resistant tree, native to tropical and subtropical regions of South Asia.
+            It is widely cultivated for its young seed pods and leaves used as vegetables and
+            for traditional herbal medicine. It is also used for water purification.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-cutlery fa-1x" aria-hidden="true"></i>
+                Culinary uses</div></h3>
+            <p>Moringa has numerous applications in cooking throughout its regional distribution.
+            The fruits or seed pods, known as "drumsticks", are a culinary vegetable commonly
+            used in soups and curries. The leaves are also commonly eaten with many culinary uses,
+            and the flowers are featured in some recipes as well.
+            The long drumsticks are often cut into shorter lengths and stewed in curries and soups.
+            Because the outer skin is tough and fibrous, drumsticks are often chewed to extract the
+            juices and nutrients, with the remaining fibrous material discarded. Others describe a
+            slightly different method of sucking out the flesh and tender seeds and discarding the tube of skin.[29]
+            Traditional dishes which commonly include drumsticks prepared this way include South
+            Indian sambar where it is stewed with lentils,
+            and the Thai dish kaeng som which is a sour curry with drumsticks and fish.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-cutlery fa-1x" aria-hidden="true"></i>
+                Leafes and Flowers</h3></div>
+            <p>The leaves are the most nutritious part of the plant, being a significant
+            source of B vitamins, vitamin C, provitamin A as beta-carotene, vitamin K,
+            manganese, and protein, among other essential nutrients.
+            When compared with common foods particularly high in certain nutrients
+            per 100 g fresh weight, cooked moringa leaves are considerable sources
+            of these same nutrients.The leaves are cooked and used like spinach and
+            are commonly dried and crushed into a powder used in soups and sauces
+            </p>
+            <div class="row">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/moringa-olifera-leafs.png" style="width:100%;">
+                    </div>
+                    <div class="col">
+                            <img src="/static/images/intresting-facts/moringa-olifera-flowers.png" style="width:100%;">
+                        </div>
+                </div>
+
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-cutlery fa-1x" aria-hidden="true"></i>
+                Drumsticks</h3></div>
+            <p>The immature seed pods, called "drumsticks", are commonly consumed in South Asia.
+            They are prepared by parboiling, and cooked in a curry until soft.
+            The seed pods/fruits, even when cooked by boiling, remain particularly high in vitamin C
+            (which may be degraded variably by cooking) and are also a good source of dietary fiber,
+            potassium, magnesium, and manganese
+            </p>
+            <div class="row">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/drumsticks.png" style="width:100%;">
+                    </div>
+                </div>
+
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-tint fa-1x" aria-hidden="true"></i>
+                Seeds and Seed oil</h3></div>
+            <p>The seeds, sometimes removed from more mature pods and eaten like peas or roasted like
+            nuts, contain high levels of vitamin C and moderate amounts of
+            B vitamins and dietary minerals.
+            Mature seeds yield 38–40% edible oil called ben oil from its high
+            concentration of behenic acid. The refined oil is clear and odorless,
+            and resists rancidity. The seed cake remaining after oil extraction may be used
+            as a fertilizer or as a flocculent to purify water. Moringa seed oil also
+            has potential for use as a biofuel.
+            </p>
+
+            <div class="row">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/drumsticks-seeds.png" style="width:100%;">
+                    </div>
+                </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-tint fa-1x" aria-hidden="true"></i>
+                Water Purification</h3></div>
+            <p>Moringa seed cake, obtained as a byproduct of pressing seeds to obtain oil,
+            is used to filter water using flocculation to produce potable water for animal
+            or human consumption.Moringa seeds contain dimeric cationic proteins
+            which absorb and neutralize colloidal charges in turbid water,
+            causing the colloidal particles to clump together, making the suspended particles
+            easier to remove as sludge by either settling or filtration. Moringa seed cake
+            removes most impurities from water. This use is of particular interest for being
+            nontoxic and sustainable compared to other materials in moringa-growing regions
+            where drinking water is affected by pollutants.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-inr fa-1x" aria-hidden="true"></i>
+                Economic Potential</h3></div>
+            <p>India is the largest producer of moringa, with an annual production of 1.2 million
+            tonnes of fruits from an area of 380 km².Moringa is grown in home gardens
+            in West Bengal and Odisha and as living fences in southern India and Thailand,
+            where it is commonly sold in local markets. In the Philippines and Indonesia,
+            it is commonly grown for its leaves which are used as food. Moringa is also
+            actively cultivated by the World Vegetable Center in Taiwan, a center for
+            vegetable research. In Haiti, it is grown as windbreaks and to help reduce soil erosion.
+            More generally, moringa grows in the wild or is cultivated in Central America and the Caribbean,
+            northern countries of South America, Africa, Southeast Asia and various countries of Oceania.
+            As of 2010, cultivation in Hawaii, for commercial distribution in the United States, is in its early stages.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+            <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+            Learn more about {{specie}} tree<a class="SCC_link"  href="https://en.wikipedia.org/wiki/Moringa_oleifera" target="_blank">
+            here</a></p></div>
+
+        {% elif botanicalName == "Delonix_regia" %}
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Intresting facts</h3></div>
+            <p>Delonix regia or Gulmohar is a beatuful flowering tree,
+            by looking at its fine leafes it gives a mental peace of mind.
+            In many tropical parts of the world is grown as an
+            ornamental tree and in English it is given the name royal poinciana or
+            flamboyant. It is also one of several trees known as "flame tree".
+            Flowering start April to June.
+            </p>
+
+            <div class="row">
+                <div class="col">
+                        <img src="/static/images/intresting-facts/gulmohar-flower.jpg" style="width:150%;">
+                    </div>
+                </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-leaf fa-1x" aria-hidden="true"></i>
+                Shade</h3></div>
+            <p>In addition to its ornamental value, it is also a useful shade tree
+            in tropical conditions, because it usually grows to a modest
+            height (mostly 5 meters, but it can reach a maximum height
+            of 12 meters) but spreads widely, and its dense foliage
+            provides full shade. In areas with a marked dry season,
+            it sheds its leaves during the drought, but in other areas it
+            is virtually evergreen.
+            </p>
+
+            <div class="row">
+                    <div class="col">
+                            <img src="https://d1u4oo4rb13yy8.cloudfront.net/article/37588-gbpzifqqlv-1468324498.jpg" style="width:150%;">
+                        </div>
+                    </div>
+
+            <div class="text-heading" style="font-size:20px;">
+            <h3><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+                Medical Properteis</h3></div>
+            <p>It has various medical properteis like Antimicrobial,
+            Anti-diarrhea, Hepatoprotective, Anti-inflammatory, Antioxidant, Antidiabetic,
+            Antibacterial effects.
+            </p>
+
+            <div class="text-heading" style="font-size:20px;">
+                <span style="color:green;"><i class="fa fa-hand-o-right fa-1x" aria-hidden="true"></i></span>
+                Learn more about {{specie}} tree<a class="SCC_link"  href="https://en.wikipedia.org/wiki/Delonix_regia" target="_blank">
+                here</a></p></div>
+
+        {% endif %}
+
+        <div class="Warning">
+            <div class="Ayurveda_warning">
+                <img src="\static\images\tree-view\Warning_icon.png">
+                </div>
+            <h3 style="text-align:center;"><u>Warning</u></h3>
+                <p>We do not recomend and refere any kind madical use of trees specie as describe above.
+                we have linked tree specie specific medical application for knowledge purpose only.
+                we strongly says do not attempt any kind of DIY remedeis by yourself, Althoug Ayurveda
+                do not have any kind of side-effect but for safer side please concern any ayurvedic
+                expert first before making any attemp, because some people might get allergic
+                effect.
+            </p>
+
+            </div>
+
+            </div>
+
+        </div>
+    </div>
+        </div>
+
+
+
+
+
+
+<!--------------------ENDS---------------------------->
+
+
+<!------------------Map html STARTS---------------------->
+
+<div class="w3-container w3-light-grey w3-padding-64" id="specie_benefits">
+    <div class="map_marker_icon">
+        <img src="/static/images/tree-view/map-marker-icon.png">
+        </div>
+    <h3 style="text-align: center;"><u>Location on map</u></h3>
+
+</div>
+
+ <div class="map-container">
+ <div id="map"></div>
+ </div>
+
+
+<script>
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoieWtpbmc4OCIsImEiOiJjam9scGdjZGYwYmM4M3ZxYnprcnJlMWJvIn0.Ey_PnhKVVx1BBYC2T2NNjw';
+
+    var Longitude = '{{Lon}}';
+    var Latitude = '{{Lat}}';
+    var TreeCode = '{{treeCode}}';
+    var Specie =  '{{specie}}';
+    var SpecieCode =  parseInt('{{specieCode}}');
+
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v10',
+      center: [Latitude, Longitude],
+      zoom: 16, // starting zoom
+     pitch: 60, // pitch in degrees
+     bearing: -60, // bearing in degrees
+    });
+
+
+
+//declarint geojason model
+
+var w_markers = {
+
+    "type": "FeatureCollection",
+        features: [{
+
+    'type': 'Feature',
+    geometry: {
+    type: 'Point',
+    coordinates: [ Latitude, Longitude ]
+    },
+    properties: {
+      Tree_Specie: Specie,
+      Tree_code: TreeCode,
+      Specie_code: SpecieCode
+    }
+  }]
+};
+
+
+
+    w_markers.features.forEach(function(marker) {
+
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+
+    if (marker.properties.Specie_code == 1621)
+    {
+        el.className = 'Peepal';
+    }
+    else if(marker.properties.Specie_code == 1622)
+    {
+        el.className = 'Bargad';
+    }
+
+    else if(marker.properties.Specie_code == 1321)
+    {
+        el.className = 'Amaltas';
+    }
+
+    else if(marker.properties.Specie_code == 1421)
+    {
+        el.className = 'Gulmohar';
+    }
+
+    else if(marker.properties.Specie_code == 2121)
+    {
+        el.className = 'Arjun';
+    }
+
+    else if(marker.properties.Specie_code == 1921)
+    {
+        el.className = 'Drum_Stick';
+    }
+    else if(marker.properties.Specie_code == 1221)
+    {
+        el.className = 'Semal';
+    }
+    else if(marker.properties.Specie_code == 1521)
+    {
+        el.className = 'Safeda';
+    }
+    else if(marker.properties.Specie_code == 1021)
+    {
+        el.className = 'Scholar_tree';
+    }
+    else if(marker.properties.Specie_code == 1121)
+    {
+        el.className = 'Neem';
+    }
+    else if(marker.properties.Specie_code == 1821)
+    {
+        el.className = 'Bakayan';
+    }
+
+    else if(marker.properties.Specie_code == 2021)
+    {
+        el.className = 'False_ashoka';
+    }
+
+    else if(marker.properties.Specie_code == 1623)
+    {
+        el.className = 'Pilkhan';
+    }
+
+    else if(marker.properties.Specie_code == 1721)
+    {
+        el.className = 'Sausage_tree';
+    }
+
+    else if(marker.properties.Specie_code == 1122)
+    {
+        el.className = 'Sentang';
+    }
+
+    else{
+        el.className = 'marker';
+    }
+
+
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat(marker.geometry.coordinates)
+      .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+      .setHTML('<h3>' + marker.properties.Tree_Specie + '</h3><p>' + marker.properties.Tree_code + '</p>'))
+      .addTo(map);
+    });
+
+    </script>
+
+
+<br><br>
+
+
+<!---------------ENDS--------------------->
+
+
+<!------------------------------CSS------------------------->
+<style>
+
+    .species-image
+        {
+            width: 45%;
+            float:left;
+            font-size:50px;
+
+        }
+
+
+        p.tree-details {
+            margin-bottom: 0;
+        }
+        p {
+            margin-top: 0;
+        }
+
+        .tree_image
+        {
+
+            margin-left: auto;
+            margin-right: auto;
+            width: 350px;
+            height:500px;
+            border:solid;
+            border-color:lightgray;
+            border-width: 5px;
+
+        }
+        .tree_image:hover{
+            border-color:grey;
+        }
+
+
+        table{
+                border: 0.25px solid white;
+                width: 100%;
+                padding: 1%;
+             }
+
+        th, td {
+                text-align: left;
+                padding: 8px;
+               }
+
+        tr:nth-child(even){background-color: #f2f2f2}
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            }
+
+        td{background-color: lightgrey;}
+
+        .important_facts_icon
+        {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 30%;
+        }
+
+
+
+        a:hover
+        {
+            color:green;
+        }
+
+        .ayurveda
+        {
+            display:block;
+            border-radius:5%;
+            margin-right: auto;
+            margin-left:auto;
+            max-width: 50%;
+
+        }
+
+        p.text
+        {
+            line-height:120%;
+        }
+
+
+
+        .col
+        {
+            float: left;
+            width: 33.33%;
+            padding: 5px;
+        }
+
+        /* Clearfix (clear floats) */
+        .row::after
+        {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 500px) {
+  .col {
+    width: 100%;
+    }
+
+ }
+
+    body {
+        margin: 0;
+        padding: 0;
+      }
+
+
+    </style>
+
+{% endblock %}

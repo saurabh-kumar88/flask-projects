@@ -1,0 +1,213 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+<br><br>
+<!-----------------------trest code----------------------->
+
+
+<!--------------------------------------------------------->
+
+
+<html>
+  <head>
+    Posts
+  </head>
+  <body>
+
+<div style="overflow-x:auto;">  
+  <table>
+      <tr>
+      <th>ID</th>
+      <th>Measurment Date</th>
+      <th width="10%">Updated </th>     
+      <th>Common Name</th>
+      <th>Scientific Name</th>
+      <th>Age</th>
+      <th>Height</th>
+      <th>Trunk diameter</th>
+      <th>Closest Address</th>
+      <th>Condition</th>
+      </tr>
+    {% for row in posts.items %}
+        {% if row.condition == "Bad/Damaged/Sick" or row.condition == "Bad/Bark-damaged"%}
+      
+        <tr style="background-color: yellow">
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td >{{row.closest_address}}</td>
+        <td>{{row.condition}}</td>  
+        </tr>
+      {% elif row.condition == "Dead/Gone" %}
+       <tr style="background-color:tomato">
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td>{{row.closest_address}}</td>
+        <td>{{row.condition}}</td>   
+        </tr>
+   
+        {% else %}
+        <tr>
+        <td>{{row.Tree_code}}</td>
+        <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+        <td>{{row.common_name}}</td>                                 
+        <td>{{row.sceintific_name}}</td>
+        <td style="width: 10%">{{row.Age}} yrs.</td>
+        <td>{{row.Height}} ft.</td>
+        <td>{{row.Diameter_girth}} inch.</td>
+        <td>{{row.closest_address}}</td>
+        <td>{{row.condition}}</td> 
+        </tr>
+      {% endif %}
+
+      {% endfor %}
+    </table>
+    </div>
+
+
+
+{% if posts.has_prev %}<a href="{{ url_for('street.view', page=posts.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} | 
+{% if posts.has_next %}<a href="{{ url_for('street.view', page=posts.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
+
+  </body>
+</html>
+
+<h1>................{{msg}}.................</h1>
+
+<style>
+        table{                      
+                border: 0.25px solid white;
+                width: 100%;
+                padding: 1%;
+             }
+        
+        th, td {
+                text-align: left;
+                padding: 8px;
+               }
+                                
+        tr:nth-child(even){background-color: #f2f2f2}
+        
+        th {
+            background-color: #4CAF50;
+            color: rgb(255, 255, 255);
+            }
+</style>
+
+
+
+
+<!-----------------test code----------------------------------->
+
+<script>
+  var current_page = 1;
+var records_per_page = 2;
+
+var objJson = [
+    { adName: "AdName 1"},
+    { adName: "AdName 2"},
+    { adName: "AdName 3"},
+    { adName: "AdName 4"},
+    { adName: "AdName 5"},
+    { adName: "AdName 6"},
+    { adName: "AdName 7"},
+    { adName: "AdName 8"},
+    { adName: "AdName 9"},
+    { adName: "AdName 10"}
+]; // Can be obtained from another source, such as your objJson variable
+
+function prevPage()
+{
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage()
+{
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function changePage(page)
+{
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var listing_table = document.getElementById("listingTable");
+    var listing_table2 = document.getElementById("TreeCode");
+    var listing_table3 = document.getElementById("Specie");
+    var page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML = "";
+    
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) 
+    {
+        listing_table.innerHTML += objJson[i].adName + "<br>";
+    }
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
+
+function numPages()
+{
+    return Math.ceil(objJson.length / records_per_page);
+}
+
+window.onload = function() {
+    changePage(1);
+};
+  </script>
+
+
+
+<div id="listingTable"></div>
+
+<table>
+  <th>TreeCode</th>
+  <td id="TreeCode"></td>
+  <th>Specie</th>
+  <td id="Specie"></td>
+  </table>
+
+<a href="javascript:prevPage()" id="btn_prev">Prev</a>
+<a href="javascript:nextPage()" id="btn_next">Next</a>
+page: <span id="page"></span>
+
+
+<!------------------------------------------------------------->
+
+
+
+
+{% endblock %}

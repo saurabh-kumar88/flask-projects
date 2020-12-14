@@ -1,0 +1,320 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<br><br>
+<div class="col-12 col-s-12" style="padding:128px 16px" id="road">
+        <script src="https://cdn.rawgit.com/LeaVerou/awesomplete/gh-pages/awesomplete.min.js"></script>
+
+        <div class="row-img">
+            <div class="col-img">
+              <img src="/static/images/home/sign_board.png"  width="100%" class="round-cornor">
+              <style>
+                .round-cornor
+                {
+                  border-radius: 100px;
+                }
+                </style>
+            </div>
+            <div class="col-img">
+              <h3>Street wise Data base</h3>
+              <hr>
+              <p>Enter street name here</p>
+              </div>
+<div class="col-img">
+<form action="{{url_for('street.search_street_by_name')}}" method="POST">
+<select class="js-example-basic-single" name="street_name">
+
+<option  value="Akbar Road">Akbar Road</option>
+<option  value="Aurangzeb Lane">Aurangzeb Lane</option>
+<option  value="Jashwant Singh Road">Jashwant Singh Road</option>
+<option  value="Jai Singh Road">Jai Singh Road</option>
+<option  value="BD Marg">BD Marg</option>
+<option  value="BK Singh Marg">BK Singh Marg</option>
+<option  value="RK Ashram Marg">RK Ashram Marg</option>
+<option  value="Abdul Fazal Road">Abdul Fazal Road</option>
+<option  value="Arch Bishop Marg">Arch Bishop Marg</option>
+<option  value="Aurobindo Marg">Aurobindo Marg</option>
+<option  value="Mandir Marg">Mandir Marg</option>
+<option  value="Sardar Patel Marg">Sardar Patel Marg</option>
+<option  value="Safdarjung Road">Safdarjung Road</option>
+<option  value=""></option>
+<option  value=""></option>
+
+
+
+</select>
+<div class="row">
+<br>
+<button class="w3-button w3-green" type="submit">
+<i class="fa fa-search"></i> Search</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+  $(document).ready(function() {
+      $('.js-example-basic-single').select2();
+  });
+</script>
+
+      <!----Explore complete DataBase---->
+
+          <div class="row-img">
+              <div class="col-img">
+                  <img class="w3-image w3-round-large" src="/static/images/home/signe_boards2.jpg" alt="" height="100%">
+                 </div>
+            <div class="col-img">
+                <h3>Or Explore Complete DataBase here</h3>
+                <hr>
+                <p>Select Zone</p>
+                <form action="{{url_for('street.search_street')}}" method="POST">
+                  <p><select name="zone" id="zone" onchange="changecat(this.value);">
+                    <option value="" disabled selected >-------Select Zone-------</option>
+                    <option value="ZONE1">ZONE1</option>
+                    <option value="ZONE2">ZONE2</option>
+                    <option value="ZONE3">ZONE3</option>
+                    <option value="ZONE4">ZONE4</option>
+                    <option value="ZONE5">ZONE5</option>
+                    <option value="ZONE6">ZONE6</option>
+                    <option value="ZONE7">ZONE7</option>
+                    <option value="ZONE8">ZONE8</option>
+                    <option value="ZONE9">ZONE9</option>
+                  </select>
+                  </p>
+
+                  <p>Select Street Name</p>
+                  <select name="category" id="category">
+                    <option value="" disabled selected>Select</option>
+                </select>
+                    <br><br>
+                  <button class="w3-button w3-green" type="submit">
+                    <i class="fa fa-search"></i> Explore</button>
+                </form>
+              <br><br>
+
+              </div>
+
+                </div>
+                <hr>
+              </div>
+
+
+      <script>
+        var mealsByCategory = {
+            ZONE1 : ["Akbar Lane",
+                    "Akbar Road",
+                    "Aurangzeb Rd",
+                    "Bardolai Marg",
+                    "Circular Road",
+                    "Dalhousie Rd.",
+                    "K.Kamraj Marg",
+                    "K.M. Marg",
+                    "Keventer Dairy",
+                    "Krishna Menon Lane",
+                    "Kushak Rd.",
+                    "M.L.N.Marg",
+                    "Maulana Azad Rd",
+                    "Meena Bagh Flat",
+                    "Rafi Marg",
+                    "Rajaji Marg",
+                    "Safdarjung Lane",
+                    "South Avenue",
+                    "Sunehri Bagh Rd",
+                    "T.M. Lane",
+                    "Teen Murti Marg",
+                    "Tuglak Rd"],
+
+            ZONE2 : ["Aurangzeb Road",
+                    "Aurangzeb Lane",
+                    "Akbar Road",
+                    "Amrita Shergill Marg",
+                    "Amrita Shergill Lane 3 Pole Service",
+                    "Amrita Shergill Gole",
+                    "Bapa Nagar",
+                    "C- Hexagon",
+                    "C- I Pandara Park & D-II Pandara Road 40 Quarter",
+                    "C-I Humayun Flats",
+                    "C-I Lodhi Garden Flats",
+                    "Claridge Gole",
+                    "Cementary & Mali Quarter",
+                    "Children Park CFL lamp",
+                    "C-I Pandara Park CFL lamp",
+                    "Dr Zakir Hussain Marg New Pole & old Pole",
+                    "Dr Zakir Hussain Parking",
+                    "Delhi High Court service",
+                    "Humayun Road",
+                    "Humayun Lane",
+                    "Janpath",
+                    "Kaka Nagar",
+                    "Khan Market",
+                    "Lodhi Garden Service",
+                    "Maulana Azad Road",
+                    "Man singh Road",
+                    "Man Singh Gole",
+                    "Man Singh Dhobi Ghat",
+                    "Moti Lal Nehru Marg near Masjid" ,
+                    "Meena Bagh Flats",
+                    "Max Mullar marg",
+                    "Prithvi Raj Road",
+                    "Prithvi Raj Lane",
+                    "Prithvi Raj Road service",
+                    "Pandara Road",
+                    "Ravindra Nagar",
+                    "Rajesh Pilot Marg",
+                    "Rajesh Pilot Lane",
+                    "NDMC Quarter type-V",
+                    "Sujan Singh Park",
+                    "Sher Shah Road",
+                    "Shahajan Road",
+                    "Subramaniam Bharti Marg",
+                    "Subramaniam Bharti Lane",
+                    "Tees January Marg",
+                    "Tees January lane & old Pole",
+                    "Tuglak Lane",
+                    "UPSC Service",
+                    "Varda Vakil Marg",
+                    "York Place Gole"],
+
+            ZONE3 : ["Aditya sadan",
+                     "Asia House",
+                     "Atul Grove Lane",
+                     "Atul Grove Road",
+                     "BKS Marg Old Pole",
+                     "Bangla Sahib Lane",
+                     "Chanderlok Back side",
+                     "HCM Lane",
+                     "Hailey Lane",
+                     "Hailey Rod",
+                     "Hanuman Lane",
+                     "Hanuman Road",
+                     "Hanuman Road Park",
+                     "Hanuman Road Quarter",
+                     "Hanuman Road Quarter Park",
+                     "Indian Oil Bhawan",
+                     "Janpath Lane",
+                     "Janpath Mini Market",
+                     "Jantar Mantar Lane",
+                     "Jantar Mantar Park",
+                     "Jashwant Singh Lane",
+                     "Jashwant Singh Road",
+                     "LIC Car parking",
+                     "Mahadeva Lane",
+                     "Mahadeva Road",
+                     "Merdian Back side",
+                     "Patel chowk Gole",
+                     "Patodi House",
+                     "RP Lane",
+                     "Rafi Marg",
+                     "Rai Sina Lane",
+                     "Rai Sina Parking",
+                     "Rakab Ganj Rod",
+                     "Ravi Shankar Sukla Lane ( Canning Lane)",
+                     "Regal Back side",
+                     "Scindia House",
+                     "State Man Service",
+                     "Telegraph lane",
+                     "Vakil Lane",
+                     "patel Chowk"],
+
+            ZONE4:  ["BD Marg",
+                     "BK Singh Marg",
+                     "Bangla Sahib Road",
+                     "Bhagat Singh Marg & Mkt.",
+                     "Bhai Veer Singh Marg",
+                     "Church Road",
+                     "DIZ Area",
+                     "GPO Gole market",
+                     "GRG Rd",
+                     "Gole Mkt.",
+                     "Kali Bari Marg",
+                     "MP Flats North Avenue",
+                     "Mandir Marg",
+                     "Mother Terrisa Road",
+                     "Panchkuiya Road",
+                     "Park Lane",
+                     "Park Street",
+                     "Peshwa Road",
+                     "Pandit Pant Marg",
+                     "RK Ashram Marg",
+                     "Red Cross Road",
+                     "Shankar Road"],
+
+
+            ZONE5:  ['Abdul Fazal Road',
+                     'Babar Lane',
+                     'Babar Place',
+                     'Babar Road',
+                     'Barakhamba Lane(New)',
+                     'Barakhamba Road',
+                     'Barakhamba Road (Old)',
+                     'Bazar lane',
+                     'Bhagwan Das Lane',
+                     'Bhagwan Das Lane (Aakansha)',
+                     'Bhagwan Das Road',
+                     'Blawant Metha Lane',
+                     'C-Hexagon',
+                     'C-II Park',
+                     'Canning Lane',
+                     'Central Lane',
+                     'Central Place',
+                     'Chemsford Road',
+                     'College Lane',
+                     'Connaught Lane',
+                     'Copernicus Lane',
+                     'Copernicus Lane Service',
+                     'Copernicus Marg',
+                     'Fire Brigade lane',
+                     'J Point Service',
+                     'Kasturba Gandhi Marg',
+                     'Link Road',
+                     'Maha Raja Ranjeet Singh Marg',
+                     'Mathura Lane',
+                     'Modern School Lane',
+                     'Panchkuaya Road',
+                     'Purana Quila Road',
+                     'Safdar Hasmi Road (College Road)',
+                     'School Lane',
+                     'Shankar Market',
+                     'Sikandra Lane',
+                     'Sikandra Road',
+                     'Sirimat Madhav Rao Scindia Road',
+                     'Tansen Marg',
+                     'Tansen Marg(Lantern)',
+                     'Tilak Lane',
+                     'Tilak Marg (Inner C-Hexagon)',
+                     'Tilak Marg (Outer C-Hexagon)',
+                     'Todarmal Lane',
+                     'Todarmal Lane Service',
+                     'Todarmal Road'],
+
+            ZONE6: ["Arch Bishop Marg"],
+
+            ZONE7: ["Aurobindo Marg"],
+
+            ZONE8: ["Sardar Patel Marg"],
+
+            ZONE9: ["Safdarjung Road"]
+
+
+        }
+
+          function changecat(value) {
+              if (value.length == 0) document.getElementById("category").innerHTML = "<option></option>";
+              else {
+                  var catOptions = "";
+                  for (categoryId in mealsByCategory[value]) {
+                      catOptions += "<option>" + mealsByCategory[value][categoryId] + "</option>";
+                  }
+                  document.getElementById("category").innerHTML = catOptions;
+              }
+          }
+
+        </script>
+
+
+
+
+
+
+{% endblock %}

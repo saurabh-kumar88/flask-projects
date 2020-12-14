@@ -1,0 +1,329 @@
+{% extends "layout.html"%}
+{% block title %}Home{% endblock %}
+{% import "bootstrap/utils.html" as utils %}
+{% block content %}
+
+
+<br><br>
+<br>
+{{ utils.flashed_messages() }}
+<style>
+    .bgimg-1 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("/static/images/home/tree.jpg");
+    min-height: 100%;
+    }
+
+
+      .autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+/* Bottom right text */
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+
+
+
+}
+
+    </style>
+
+
+<!-- Header with full-height image -->
+
+<header class="bgimg-1 w3-display-container " id="home">
+  <div class="w3-display-left w3-text-white">
+    <div class="col-12 col-s-12">
+      <span class="w3-jumbo w3-hide-small" style="font-size:5vw;">Know the trees You passe's by everyday</span><br>
+      <span class="w3-xxlarge w3-hide-large w3-hide-medium" style="font-size:5vw;">Know the trees You passe's by everyday</span><br>
+      <span class="w3-large" style="font-size:5vw; font-weight: bold">Welcome to New Delhi Street Tree Map</span>
+      <p><a href="#CityWide_Data" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-on">CityWide Statistics</a></p>
+    </div>
+    </div>
+
+    <div class="w3-display-bottomleft w3-text-black w3-large" style="padding: 10px 48px">
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+  </header>
+
+
+  <!----------CityWide Statistics------------------->
+  <br>
+
+  <div class="col-12 col-s-12" style="padding:128px 16px" id="CityWide_Data">
+    <h1 style="text-align: center; font-weight:bold;color: #88c659;">CityWide Data</h1>
+    <hr>
+    <div class="row-img">
+      <div class="col-img">
+            <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-thumbs-up"></i></span> Mapped Trees</h3>
+            <h3 style="color:#88c659;">{{mapped_trees}}</h3>
+        </div>
+  
+        <div class="col-img">
+              <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-pagelines fa-2x"></i></span> Number of Species</h3>
+              <h3 style="color:#88c659;">{{species_count}}</h3>
+            </div>
+      </div>
+  
+      <div class="row-img">
+          <div class="col-img">
+            <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-pencil"></i></span> Activities Reported</h3>
+            <h3 style="color:#88c659;">Will be implemented soon</h3>
+          </div>
+  
+          <div class="col-img">
+              <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-heart"></i></span> Trees Favorited</h3>
+              <h3 style="color:#88c659;">Will be implemented soon</h3>
+            </div>
+          </div>
+  
+  
+  
+      <div class="row-img">
+          <div class="col-img">
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-bolt"></i></span> Energy Conserved Each Year</h3>
+                <h3 style="color:#88c659;">Will be implemented soon</h3>
+              </div>
+  
+              <div class="col-img">
+                  <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tint"></i></span> Storm Water Intercepted Each Year</h3>
+                  <h3 style="color:#88c659;">Will be implemented soon</h3>
+                </div>
+          </div>
+  
+      <div class="row-img">
+          <div class="col-img">
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tree"></i></span> Most Common Specie</h3>
+                {% for x in most_common_species %}
+                <h3 style="color:#88c659;">{{x.specie}} </h3>
+                <p style="text-align:left;">{{x.count}} trees, {{ x.percentage | float | round(2)}}% of total trees on map. </p>
+  
+                {% endfor %}
+  
+            </div>
+  
+            <div class="col-img">
+              {% for x in benefits_yr %}
+              <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-sun-o"></i></span> Carbon dioxide Reduced Each Year</h3>
+                <h3 style="color:#88c659;">{{x.carbon_dioxide}} Kg </h3>
+  
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-inr"></i></span> Social cost of carbon saved Each Year</h3>
+                <h3 style="color:#88c659;">{{x.SCC}} Rs </h3>
+              {% endfor %}
+  
+              </div>
+          </div>
+  
+  
+  <div class="row-img">
+      <div class="col-img">
+            <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-map-marker"></i></span> CityWide Map with Filters</h3>
+            <hr>
+  
+              <h3>Filter By Age</h3>
+              <hr>
+              <form action="{{url_for('home.filter_by_age')}}" method="POST">
+  
+                <label class="container"> Greater then  100 Yrs.
+                  <input type="radio" checked="checked" name="options" id="G_100" value="G_100">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container"> Under 100 Yrs.
+                  <input type="radio" name="options" id="U_100" value="U_100">
+                  <span class="checkmark"></span>
+                </label>
+  
+                <label class="container"> Under 50 Yrs.
+                  <input type="radio" name="options" id="U_50" value="U_50">
+                  <span class="checkmark"></span>
+                </label>
+  
+                <label class="container"> Young trees under 10 Yrs.
+                  <input type="radio" name="options" id="U_10" value="U_10">
+                  <span class="checkmark"></span>
+                </label>
+                    <div class="row">
+                      <button class="w3-button w3-green" type="submit">
+                      <i class="fa fa-search"></i> Search</button>
+                    </div>
+  
+                </form>
+              </div>
+  
+  
+              <div class="row-img">
+                  <div class="col-img">
+                          <h3>Filter By Specie</h3>
+              <hr>
+              <p>Enter specie name here  (Common or Botanical)</p>
+  
+  
+  
+              <form action="{{url_for('home.filter_by_specie')}}" method="POST">
+              <select class="js-example-basic-single" name="specie">
+  
+                <option  value="Amaltas">Amaltas</option>
+                <option  value="Cassia fistula">Cassia_fistula</option>
+                <option  value="Arjun">Arjun</option>
+                <option  value="Terminalia_arjuna">Terminalia_arjuna</option>
+                <option  value="Bargad">Bargad</option>
+                <option  value="Ficus_benghalensis">Ficus benghalensis</option>
+                <option  value="Bakayan">Bakayan</option>
+                <option  value="Melia_azedarach">Melia azedarach</option>
+                <option  value="Drum_Stick">Drum Stick</option>
+                <option  value="Moringa_oleifera">Moringa oleifera</option>
+                <option  value="False_ashoka">False ashoka</option>
+                <option  value="Polyalthia_longifolia">Polyalthia longifolia</option>
+                <option  value="Gulmohar">Gulmohar</option>
+                <option  value="Delonix_regia">Delonix regia</option>
+                <option  value="Neem">Neem</option>
+                <option  value="Azadirachta_indica">Azadirachta indica</option>
+                <option  value="Peepal">Peepal</option>
+                <option  value="Ficus_religiosa">Ficus religiosa</option>
+                <option  value="Pilkhan">Pilkhan</option>
+                <option  value="Ficus_virens">Ficus virens</option>
+                <option  value="Safeda">Safeda</option>
+                <option  value="Eucalyptus">Eucalyptus</option>
+                <option  value="Scholar_tree">Scholar tree</option>
+                <option  value="Alstonia_scholaris">Alstonia scholaris</option>
+                <option  value="Semal">Semal</option>
+                <option  value="Bombax_ceiba">Bombax ceiba</option>
+                <option  value="Sausage_tree">Sausage tree</option>
+                <option  value="Kigelia_africana">Kigelia africana</option>
+  
+                <option  value=""></option>
+                <option  value=""></option>
+                <option  value=""></option>
+                <option  value=""></option>
+  
+              </select>
+              <div class="row">
+                <br>
+              <button class="w3-button w3-green" type="submit">
+                <i class="fa fa-search"></i> Search</button>
+                </div>
+              </form>
+  
+              </div>
+          </div>
+      </div>
+  </div>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
+
+
+<style>
+  /*__________________________________CSS FOR RADIO BUTTONS________________________________*/
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: relative;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 10;
+  left:0;
+  right:0;
+  height: 25px;
+  width: 25px;
+  background-color: lightgrey;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #88c659;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+/*____________________________ENDS HERE___________________________________*/    
+</style>
+
+
+{% endblock %}

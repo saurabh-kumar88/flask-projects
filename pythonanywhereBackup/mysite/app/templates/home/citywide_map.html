@@ -1,0 +1,326 @@
+{% extends "layout.html"%}
+{% block title %} Citywide Map {% endblock %}
+{% block content %}
+<br>
+<div class="col-12 col-s-12" style="padding:128px 16px" id="CityWide_Data">
+    {% if specie_name %}
+    <h2 style="color:#88c659; text-align: center;"> Total number of {{specie_name}} Trees Mapped {{total_trees}}</h2>
+    <hr>
+    <div class="row-img">
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-sun-o"></i></span> Carbodioxide Reduced Each Year</h3>
+        <h3 style="color:#88c659;">{{total_co2}} Kg </h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-inr"></i></span> Social cost of carbon saved Each Year</h3>
+        <h3 style="color:#88c659;">{{total_scc}} Rs </h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-bolt"></i></span> Energy Conserved Each Year</h3>
+        <h3 style="color:#88c659;">Will be implemented soon</h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tint"></i></span> Storm Water Intercepted Each Year</h3>
+        <h3 style="color:#88c659;">Will be implemented soon</h3>
+        </div>
+
+    </div>
+    {% else %}
+
+    <h2 style="color:#88c659; text-align: center;"> Total number of Trees {{Age_gp}} are {{total_trees}}</h2>
+    <hr>
+    <div class="row-img">
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-sun-o"></i></span> Carbodioxide Reduced Each Year</h3>
+        <h3 style="color:#88c659;">{{total_co2}} Kg </h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-inr"></i></span> Social cost of carbon saved Each Year</h3>
+        <h3 style="color:#88c659;">{{total_scc}} Rs </h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-bolt"></i></span> Energy Conserved Each Year</h3>
+        <h3 style="color:#88c659;">Will be implemented soon</h3>
+        </div>
+
+        <div class="col-img">
+        <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tint"></i></span> Storm Water Intercepted Each Year</h3>
+        <h3 style="color:#88c659;">Will be implemented soon</h3>
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+</div>
+
+
+
+<!--------------------------- CITYWIDE MAP SECTION------------------------------------>
+<div class="map_marker_icon">
+<img src="/static/images/street-view/map-marker-icon.png">
+ </div>
+    <h3 style="text-align: center;"><u>Location on map</u> </h3>
+
+    <div class="map-container">
+            <div id="map"></div>
+            </div>
+
+
+
+    <!------------Map JS Start here------------------------------->
+    <script>
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoieWtpbmc4OCIsImEiOiJjazRucjdibDMwNGdxM2xwbGtxenVubHptIn0.c0vNtXjbgZf5yzwWzGcnyw';
+
+    // longitudes sent from python view as a string
+    var python_longitudes_str  = '{{lon_str}}';
+
+    // latitudes sent from python view as a string
+    var python_latitudes_str  = '{{lat_str}}';
+
+    var tree_code_str = '{{tree_code}}';
+    var specie_str = '{{specie}}';
+    var specie_code_str = '{{specieCode}}';
+
+
+    // string.split(" ") method split string into individual parts
+
+    var tree_code = tree_code_str.split(" ");
+    var specie = specie_str.split(" ");
+    var specie_code = specie_code_str.split(" ");
+    var longitudes = python_longitudes_str.split(" ");
+    var latitudes = python_latitudes_str.split(" ");
+
+    // we need array to hold Co-ordinates values as Float fields
+    var Longitudes = [];
+    var Latitudes = [];
+    var SpecieCodes = [];
+    var TreeCodes = [];
+
+
+    // parsing string as Float fields and adding them to array
+
+    for(var x=0; x<longitudes.length; x++)
+    {
+        Longitudes.push(parseFloat(longitudes[x]));
+        Latitudes.push(parseFloat(latitudes[x]));
+        SpecieCodes.push(parseInt(specie_code[x]));
+        TreeCodes.push(tree_code[x]);
+    }
+
+
+    // creating Leaflet map-object
+
+    var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10',
+    center: [Latitudes[0], Longitudes[0]],
+    zoom: 18, // starting zoom
+    pitch: 60, // pitch in degrees
+    bearing: -60, // bearing in degrees
+});
+
+
+
+//declarint geojason model
+
+var w_markers = {
+    "type": "FeatureCollection",
+    features: []
+    };
+
+//filling up data
+
+for(var x=0; x<SpecieCodes.length; x++)
+{
+
+    var data = {
+            'id' : 'places',
+            'type': 'Feature',
+            geometry: {
+            type: 'Point',
+            coordinates: [ Latitudes[x], Longitudes[x] ]
+            },
+            properties: {
+              Tree_Specie: specie[x],
+              Tree_code: TreeCodes[x],
+              Specie_code: SpecieCodes[x],
+              Links: "https://saurabh88.pythonanywhere.com/search_tree_by_qrcode?ID=" + TreeCodes[x],
+            }
+          }
+
+ //adding objects
+
+ w_markers.features.push(data);
+}
+
+
+  map.on('load', function(e) {
+  // Add the data to your map as a layer
+  map.addLayer({
+    id: 'locations',
+    type: 'symbol',
+    // Add a GeoJSON source containing place coordinates and information.
+    source: {
+      type: 'geojson',
+      data: w_markers
+    },
+     layout: {
+      'icon-image': 'restaurantO-12',
+      'icon-allow-overlap': true,
+    }
+  });
+});
+    // add markers to map
+    w_markers.features.forEach(function(marker) {
+
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+
+
+
+    if (marker.properties.Specie_code == 1621)
+    {
+        el.className = 'Peepal';
+    }
+    else if(marker.properties.Specie_code == 1622)
+    {
+        el.className = 'Bargad';
+    }
+
+    else if(marker.properties.Specie_code == 1321)
+    {
+        el.className = 'Amaltas';
+    }
+
+    else if(marker.properties.Specie_code == 1421)
+    {
+        el.className = 'Gulmohar';
+    }
+
+    else if(marker.properties.Specie_code == 2121)
+    {
+        el.className = 'Arjun';
+    }
+
+    else if(marker.properties.Specie_code == 1921)
+    {
+        el.className = 'Drum_Stick';
+    }
+    else if(marker.properties.Specie_code == 1221)
+    {
+        el.className = 'Semal';
+    }
+    else if(marker.properties.Specie_code == 1521)
+    {
+        el.className = 'Safeda';
+    }
+    else if(marker.properties.Specie_code == 1021)
+    {
+        el.className = 'Scholar_tree';
+    }
+    else if(marker.properties.Specie_code == 1121)
+    {
+        el.className = 'Neem';
+    }
+    else if(marker.properties.Specie_code == 1821)
+    {
+        el.className = 'Bakayan';
+    }
+
+    else if(marker.properties.Specie_code == 2021)
+    {
+        el.className = 'False_ashoka';
+    }
+
+    else if(marker.properties.Specie_code == 1623)
+    {
+        el.className = 'Pilkhan';
+    }
+
+    else if(marker.properties.Specie_code == 1721)
+    {
+        el.className = 'Sausage_tree';
+    }
+
+    else if(marker.properties.Specie_code == 1122)
+    {
+        el.className = 'Sentang';
+    }
+
+
+    else if(marker.properties.Specie_code == 1005)
+    {
+
+        el.className = 'Royal_palm';
+    }
+
+    else if(marker.properties.Specie_code == 1004)
+    {
+        el.className = 'Mulberry';
+    }
+
+    else if(marker.properties.Specie_code == 1006)
+    {
+        el.className = 'Jamun';
+    }
+
+    else if(marker.properties.Specie_code == 1008)
+    {
+        el.className = 'Bottelbrush';
+
+    }
+
+    else if(marker.properties.Specie_code == 1010)
+    {
+        el.className = 'Kikar';
+
+    }
+
+
+
+    else{
+        el.className = 'marker';
+    }
+
+
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML("<h3>"+marker.properties.Tree_Specie +"</h3>"+'<h3><a href="' + marker.properties.Links + '\" target=\"_blank\">' + marker.properties.Tree_code + '</a></h3>'))
+        .addTo(map);
+
+    });
+
+
+ map.on('click', 'places', function (e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.description;
+
+    // Ensure that if the map is zoomed out such that multiple
+// copies of the feature are visible, the popup appears
+// over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+</script>
+
+
+
+{% endblock %}

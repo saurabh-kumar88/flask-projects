@@ -1,0 +1,687 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Render Street data here -->
+
+
+<br><br>
+<br><br>
+
+<!--------------------------------------------------------------------------->
+<h1 style="text-align:center;">{{street_name}}</h1>
+
+        <hr class="intro-divider">
+
+              <style>
+                  table{
+                    border: 0.25px solid white;
+                    width: 100%;
+                    padding: 1%;
+                       }
+
+        th, td {
+                text-align: left;
+                padding: 8px;
+               }
+
+                tr:nth-child(even){background-color: #f2f2f2}
+
+                th {
+                        background-color: #4CAF50;
+                        color: white;
+
+                        position: -webkit-sticky;
+                        position: sticky;
+                        top: 0;
+                        z-index: 5;
+                        background: #fff;
+                   }
+
+                tr:hover {background-color: lightgrey;}
+
+                h10 {
+                     color: rgb(1, 58, 1);
+                     text-align: center;
+                     text-decoration: underline;
+                   }
+                   tr:nth-child(even){background-color: #f2f2f2}
+            </style>
+
+
+
+
+<h3 style="text-align:center; margin-left: 10px">Types of Trees on {{street_name}}
+        <i class="fa fa-pagelines  fa-3x fa-pull-center" aria-hidden="true" ></i></h3>
+        <table cellspacing="0" cellpadding="1" border="1" width="300">
+                <th style="font-size: 20px">Total number of Street trees on {{street_name}} :  {{total_trees}}</th>
+              <tr>
+                  <th>Specie</th>
+                  <th>Count</th>
+              </tr>
+              </table>
+        <div style="width:100%; height:300px;overflow-x:auto;">
+
+
+              <table cellspacing="0" cellpadding="1" border="1" width="300">
+              {% for tree in tree_types %}
+              <tr>
+                  <td>{{tree.common_name}}</td>
+                  <td>{{tree[1]}}</td>
+              </tr>
+              {% endfor %}
+
+              </table>
+            </div>
+            <br><br>
+
+
+
+
+<div style="width:100%; height:500px; overflow:auto;">
+
+
+    <table cellspacing="0" cellpadding="0" border="1" width="100" >
+    <tr>
+    <th style="width:8.5%;">ID</th>
+    <th>Measurment Date</th>
+    <th width="10%">Updated </th>
+    <th>Common Name</th>
+    <th>Scientific Name</th>
+    <th>Age</th>
+    <th>Height</th>
+    <th>Trunk diameter</th>
+    <th>Closest Address</th>
+    <th>Condition</th>
+    </tr>
+
+    {% for row in table_data %}
+    {% if row.condition == "Bad/Damaged/Sick" or row.condition == "Bad/Bark-damaged"%}
+
+    <tr style="background-color: yellow">
+    <td>{{row.Tree_code}}</td>
+    <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.common_name}}</td>
+    <td>{{row.sceintific_name}}</td>
+    <td style="width: 10%">{{row.Age}} yrs.</td>
+    <td>{{row.Height}} ft.</td>
+    <td>{{row.Diameter_girth}} inch.</td>
+    <td >{{row.closest_address}}</td>
+    <td>{{row.condition}}</td>
+    </tr>
+{% elif row.condition == "Dead/Gone" %}
+    <tr style="background-color:tomato">
+    <td>{{row.Tree_code}}</td>
+    <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.common_name}}</td>
+    <td>{{row.sceintific_name}}</td>
+    <td style="width: 10%">{{row.Age}} yrs.</td>
+    <td>{{row.Height}} ft.</td>
+    <td>{{row.Diameter_girth}} inch.</td>
+    <td>{{row.closest_address}}</td>
+    <td>{{row.condition}}</td>
+    </tr>
+
+{% else %}
+    <tr>
+    <td>{{row.Tree_code}}</td>
+    <td>{{row.created.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.updated.strftime("%d-%m-%Y")}}</td>
+    <td>{{row.common_name}}</td>
+    <td>{{row.sceintific_name}}</td>
+    <td style="width: 10%">{{row.Age}} yrs.</td>
+    <td>{{row.Height}} ft.</td>
+    <td>{{row.Diameter_girth}} inch.</td>
+    <td>{{row.closest_address}}</td>
+    <td>{{row.condition}}</td>
+    </tr>
+{% endif %}
+
+{% endfor %}
+
+</table>
+</div>
+
+        {% if special_trees %}
+        <h3 style="text-align:center;"><u>Special trees on {{street_name}}</u></h3>
+        <div style="text-align:center;font-size:20px;">
+
+            Based on Age, Height and Canopy area
+            these are some very importar and star trees on this road,
+            thses trees require some special care.
+        </div>
+        <br><br>
+
+    <div style="overflow-x:auto;">
+
+            {% for row in special_trees %}
+            <div class="row-img">
+                <div class="col-img">
+                        <table>
+                        <tr>
+                            <th>Tree Code</th>
+                            <td>{{row.Code}} </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Common Name</th>
+                                    <td>{{row.specie}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Age (Yrs.)</th>
+                                    <td>{{row.age}}</td>
+                                </tr>
+                            </table>
+                    </div>
+                    <div class="col-img">
+                            <img src ="/static/images/trees/{{row.img_path}}"  class="responsive">
+                        </div>
+                </div>
+
+            {% endfor %}
+
+            </div>
+    {% endif %}
+
+
+
+    <!------------ Benefits STARTS------------->
+
+<div class="w3-container w3-light-grey w3-padding-64" id="specie_benefits">
+    <div class="exclanation_icon">
+        <img src="/static/images/street-view/mark-important.png" >
+        </div>
+    <h2 style="font-size:25px; text-align: center;">Ecological Benefits </h2>
+    <hr>
+
+    <div class="row-img">
+        <div class="col-img">
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-sun-o"></i></span> Carbodioxide Reduced Each Year</h3>
+                <h3 style="color:#88c659;"> {{co2_absorbed_yr}} Kg </h3>
+
+                <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-inr"></i></span> Social cost of carbon saved Each Year</h3>
+                <h3 style="color:#88c659;"> {{total_carbon_cost}} Rs </h3>
+            </div>
+            <div class="col-img">
+                    <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-bolt"></i></span> Energy Conserved Each Year</h3>
+                    <h3 style="color:#88c659;">Will be implemented soon</h3>
+
+                    <h3 style="color:#58595b;"><span style="color:#88c659;"><i class="fa fa-tint"></i></span> Storm Water Intercepted Each Year</h3>
+                    <h3 style="color:#88c659;">Will be implemented soon</h3>
+                </div>
+        </div>
+
+      <p style="font-size:20px;">India's current rate for Social cost of carbon is $86 USD per ton emission of Carbon dioxide in atmospeher
+            Learn more about <a class="SCC_link"  href="https://www.downtoearth.org.in/dte-infographics/social_cost_corbon/index.html" target="_blank">
+            Social cost of carbon(SCC)</a> here</p>
+
+</div>
+
+    <style>
+
+        .saplings
+        {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 50%;
+
+        }
+
+        table{
+                border: 0.25px solid white;
+                width: 100%;
+                padding: 1%;
+             }
+
+        th, td {
+                text-align: left;
+                padding: 8px;
+               }
+
+        tr:nth-child(even){background-color: #f2f2f2}
+
+        th {
+            background-color: #4CAF50;
+            color: rgb(255, 255, 255);
+            }
+
+        .benefit_table{background-color: lightgrey;}
+
+
+        a:hover
+        {
+            color:green;
+        }
+
+    canvas
+    {
+        width:600px;
+        height:auto;
+    }
+
+
+    @media screen and (max-width: 500px) {
+  canvas {
+          width: 350px;
+          height:400px;
+          }
+    }
+
+        </style>
+
+
+
+
+<!------------------------------SAPLINGS DATABASE TABLE---------------------------------->
+<div class="w3-container w3-light-grey w3-padding-64" id="specie_benefits">
+
+    <div class="saplings">
+            <img src="/static/images/street-view/saplings.jpeg">
+        </div>
+
+        <h2 style="text-align: center">Saplings growth rate and conditions</h2>
+        <hr>
+    </div>
+
+    <h3 style="text-align: center; color: #58595b">Sapling's survival rate on this road is {{survival_rate | round(2) }} %</h3>
+    <div style="width:100%; height:250px; overflow:auto;">
+    <table cellspacing="0" cellpadding="0" border="1" width="100" >
+        <tr>
+        <th>S.no</th>
+        <th>Common Name</th>
+        <th>Sceintific Name</th>
+        <th>Planted</th>
+        <th>Updated</th>
+        <th>Height</th>
+        <th>New_Height</th>
+        <th>Growth percentage </th>
+        <th>Condition</th>
+        </tr>
+
+    {% if saplings_db %}
+
+        {% for row in saplings_db %}
+
+            {% if row.condition == "Dead/Gone" %}
+            <tr style="background-color: tomato">
+                <td>{{row.id}}</td>
+                <td>{{row.common_name}}</td>
+                <td>{{row.sceintific_name}}</td>
+                <td>{{row.created.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.updated.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.Height}} ft</td>
+                <td>{{row.New_Height}} ft</td>
+                <td>{{row.Growth_percentage | round(2)}} %</td>
+                <td>{{row.condition}}</td>
+
+            </tr>
+            {% elif row.condition == "Bad/Damaged/Sick" or row.condition == "Bad/Bark-damaged" %}
+            <tr style="background-color: yellow">
+                <td>{{row.id}}</td>
+                <td>{{row.common_name}}</td>
+                <td>{{row.sceintific_name}}</td>
+                <td>{{row.created.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.updated.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.Height}} ft</td>
+                <td>{{row.New_Height}} ft</td>
+                <td>{{row.Growth_percentage | round(2)}} %</td>
+                <td>{{row.condition}}</td>
+            </tr>
+            {% else %}
+
+            <tr>
+                <td>{{row.id}}</td>
+                <td>{{row.common_name}}</td>
+                <td>{{row.sceintific_name}}</td>
+                <td>{{row.created.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.updated.strftime("%d-%m-%Y") }}</td>
+                <td>{{row.Height}} ft</td>
+                <td>{{row.New_Height}} ft</td>
+                <td>{{row.Growth_percentage | round(2)}} %</td>
+                <td>{{row.condition}}</td>
+            </tr>
+
+            {% endif %}
+
+
+
+        {% endfor %}
+
+    {% endif %}
+            </table>
+                </div>
+            </div>
+
+<br><br>
+
+<!-----------------------Saplings avg grwoth curve--------------->
+<head>
+    <h3 style="text-align: center">Average percentage increase in height</h3>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+  </head>
+
+  <body>
+    <center>
+      <h1>{{ title }}</h1>
+
+      <canvas id="chart" width="500" height="300"></canvas>
+      <script>
+        // bar chart data
+        var barData = {
+          labels : [
+            {% for item in labels %}
+              "{{ item }}",
+            {% endfor %}
+          ],
+          datasets : [{
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            bezierCurve : false,
+            data : [
+          {% for item in values %}
+                {{ item }},
+              {% endfor %}]
+            }
+      ]
+        }
+        Chart.defaults.global.animationSteps = 50;
+        Chart.defaults.global.tooltipYPadding = 16;
+        Chart.defaults.global.tooltipCornerRadius = 0;
+        Chart.defaults.global.tooltipTitleFontStyle = "normal";
+        Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+        Chart.defaults.global.animationEasing = "easeOutBounce";
+        Chart.defaults.global.responsive = false;
+        Chart.defaults.global.scaleLineColor = "black";
+        Chart.defaults.global.scaleFontSize = 16;
+        // get bar chart canvas
+        var mychart = document.getElementById("chart").getContext("2d");
+        steps = 10
+        max = {{ max }}
+        // draw bar chart
+        var LineChartDemo = new Chart(mychart).Line(barData, {
+          scaleOverride: true,
+          scaleSteps: steps,
+          scaleStepWidth: Math.ceil(max / steps),
+          scaleStartValue: 0,
+          scaleShowVerticalLines: true,
+          scaleShowGridLines : true,
+          barShowStroke : true,
+          scaleShowLabels: true,
+          bezierCurve: false,
+        });
+      </script>
+    </center>
+  </body>
+
+<!----------------START-------------->
+<!-------------------map------------------->
+<div class="map_marker_icon">
+<img src="/static/images/street-view/map-marker-icon.png" >
+    <h3 style="text-align: center;"><u>Location on map</u> </h3>
+</div>
+
+   <br>
+
+<div class="map-container">
+<div id="map"></div>
+</div>
+    <style>
+
+        body {
+        margin: 0;
+        padding: 0;
+      }
+
+    </style>
+
+
+
+    <!------------Map JS Start here------------------------------->
+    <script>
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoieWtpbmc4OCIsImEiOiJjazRucjdibDMwNGdxM2xwbGtxenVubHptIn0.c0vNtXjbgZf5yzwWzGcnyw';
+
+        // longitudes sent from python view as a string
+            var python_longitudes_str  = '{{lon_str}}';
+
+            // latitudes sent from python view as a string
+            var python_latitudes_str  = '{{lat_str}}';
+
+            var tree_code_str = '{{tree_code}}';
+            var specie_str = '{{specie}}';
+            var specie_code_str = '{{specieCode}}';
+
+
+            // string.split(" ") method split string into individual parts
+
+            var tree_code = tree_code_str.split(" ");
+            var specie = specie_str.split(" ");
+            var specie_code = specie_code_str.split(" ");
+            var longitudes = python_longitudes_str.split(" ");
+            var latitudes = python_latitudes_str.split(" ");
+
+            // we need array to hold Co-ordinates values as Float fields
+            var Longitudes = [];
+            var Latitudes = [];
+            var SpecieCodes = [];
+            var TreeCodes = [];
+
+
+            // parsing string as Float fields and adding them to array
+
+            for(var x=0; x<longitudes.length; x++)
+            {
+                Longitudes.push(parseFloat(longitudes[x]));
+                Latitudes.push(parseFloat(latitudes[x]));
+                SpecieCodes.push(parseInt(specie_code[x]));
+                TreeCodes.push(tree_code[x]);
+            }
+
+
+        var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v10',
+          center: [Latitudes[0], Longitudes[0]],
+          zoom: 18, // starting zoom
+         pitch: 60, // pitch in degrees
+         bearing: -60, // bearing in degrees
+        });
+
+
+
+//declarint geojason model
+
+var w_markers = {
+    "type": "FeatureCollection",
+    features: []
+    };
+
+//filling up data
+
+for(var x=0; x<SpecieCodes.length; x++)
+{
+
+    var data = {
+            'id' : 'places',
+            'type': 'Feature',
+            geometry: {
+            type: 'Point',
+            coordinates: [ Latitudes[x], Longitudes[x] ]
+            },
+            properties: {
+              Tree_Specie: specie[x],
+              Tree_code: TreeCodes[x],
+              Specie_code: SpecieCodes[x],
+              Links: "https://saurabh88.pythonanywhere.com/search_tree_by_qrcode?ID=" + TreeCodes[x],
+            }
+          }
+
+ //adding objects
+
+ w_markers.features.push(data);
+}
+
+
+
+  map.on('load', function(e) {
+  // Add the data to your map as a layer
+  map.addLayer({
+    id: 'locations',
+    type: 'symbol',
+    // Add a GeoJSON source containing place coordinates and information.
+    source: {
+      type: 'geojson',
+      data: w_markers
+    },
+     layout: {
+      'icon-image': 'restaurantO-12',
+      'icon-allow-overlap': true,
+    }
+  });
+});
+    // add markers to map
+    w_markers.features.forEach(function(marker) {
+
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+
+    if (marker.properties.Specie_code == 1621)
+    {
+        el.className = 'Peepal';
+    }
+    else if(marker.properties.Specie_code == 1622)
+    {
+        el.className = 'Bargad';
+    }
+
+    else if(marker.properties.Specie_code == 1321)
+    {
+        el.className = 'Amaltas';
+    }
+
+    else if(marker.properties.Specie_code == 1421)
+    {
+        el.className = 'Gulmohar';
+    }
+
+    else if(marker.properties.Specie_code == 2121)
+    {
+        el.className = 'Arjun';
+    }
+
+    else if(marker.properties.Specie_code == 1921)
+    {
+        el.className = 'Drum_Stick';
+    }
+    else if(marker.properties.Specie_code == 1221)
+    {
+        el.className = 'Semal';
+    }
+    else if(marker.properties.Specie_code == 1521)
+    {
+        el.className = 'Safeda';
+    }
+    else if(marker.properties.Specie_code == 1021)
+    {
+        el.className = 'Scholar_tree';
+    }
+    else if(marker.properties.Specie_code == 1121)
+    {
+        el.className = 'Neem';
+    }
+    else if(marker.properties.Specie_code == 1821)
+    {
+        el.className = 'Bakayan';
+    }
+
+    else if(marker.properties.Specie_code == 2021)
+    {
+        el.className = 'False_ashoka';
+    }
+
+    else if(marker.properties.Specie_code == 1623)
+    {
+        el.className = 'Pilkhan';
+    }
+
+    else if(marker.properties.Specie_code == 1721)
+    {
+        el.className = 'Sausage_tree';
+    }
+
+    else if(marker.properties.Specie_code == 1122)
+    {
+        el.className = 'Sentang';
+    }
+
+    else if(marker.properties.Specie_code == 1005)
+    {
+        el.className = 'Royal_palm';
+    }
+
+    else if(marker.properties.Specie_code == 1004)
+    {
+        el.className = 'Mulberry';
+    }
+
+    else if(marker.properties.Specie_code == 1006)
+    {
+        el.className = 'Jamun';
+    }
+
+    else if(marker.properties.Specie_code == 1008)
+    {
+        el.className = 'Bottelbrush';
+    }
+
+    else if(marker.properties.Specie_code == 1010)
+    {
+        el.className = 'Kikar';
+
+    }
+
+    else{
+        el.className = 'marker';
+    }
+
+
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML("<h3>"+marker.properties.Tree_Specie +"</h3>"+'<h3><a href="' + marker.properties.Links + '\" target=\"_blank\">' + marker.properties.Tree_code + '</a></h3>'))
+        .addTo(map);
+
+    });
+
+
+ map.on('click', 'places', function (e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.description;
+
+    // Ensure that if the map is zoomed out such that multiple
+// copies of the feature are visible, the popup appears
+// over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+    new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+</script>
+
+
+
+<!-----------------------ENDS HERE------------------->
+    {% endblock %}
+

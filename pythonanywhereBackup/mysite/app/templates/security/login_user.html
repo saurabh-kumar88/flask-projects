@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% from "security/_macros.html" import render_field, render_field_with_errors, render_checkbox_field %}
+{% include "security/_messages.html" %}
+{% block content %}
+{{ super() }}
+
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="login">
+    
+    <h1 class="w3-center w3-large">Lets get started:</h1>
+    <br>
+    <h3 class="w3-left">Login</h3>   
+      <div style="margin-top:48px">
+        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">     
+          {{ login_user_form.hidden_tag() }}
+           <div class="form-group">
+             {{ login_user_form.email(class='form-control', placeholder=' email address') }}
+               </div>
+                  <br>
+                    <div class="form-group">
+                    {{ login_user_form.password(class='form-control', placeholder=' password') }}
+                    </div>
+                {{ render_checkbox_field(login_user_form.remember) }}
+                {{ render_field(login_user_form.next) }}
+                {{ render_field(login_user_form.submit, class="btn btn-primary") }}
+            </form>
+            <p>Not yet signed up? Please <a href="{{ url_for('security.register') }}">register for an account</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
